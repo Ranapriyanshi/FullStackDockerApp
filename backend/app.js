@@ -1,7 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const { Client } = require('pg');
 const app = express();
 const port = 5000;
+
+app.use(cors());
 
 const dbClient = new Client({
   host: process.env.DB_HOST || 'localhost',
@@ -23,6 +26,10 @@ app.get('/api', async (req, res) => {
     console.error('DB query error:', err);
     res.status(500).send('Database error');
   }
+});
+
+app.get("/api/hello", (req, res) => {
+  res.json({ message: "Hello from the backend!" });
 });
 
 app.listen(port, () => {
